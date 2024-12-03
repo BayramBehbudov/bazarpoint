@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+   main {
+      @apply flex-[1_1_auto];
+   }
+   .container {
+      @apply max-w-[1440px];
+   }
+  :root {
+      --radius: 0.5rem;
+   }
+}
+
+@layer utilities {
+   .text-balance {
+      text-wrap: balance;
+   }
+}
