@@ -1,3 +1,9 @@
+import withPWAInit from "@ducanh2912/next-pwa";
+
+const withPWA = withPWAInit({
+   dest: "public",
+});
+
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -5,7 +11,10 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+
+export default withPWA({
+
    reactStrictMode: false,
    images: {
       remotePatterns: [
@@ -20,6 +29,6 @@ const nextConfig = {
       includePaths: [path.join(__dirname, './src/styles')],
       prependData: `@import "av";`,
    },
-}
+});
 
-export default nextConfig
+
