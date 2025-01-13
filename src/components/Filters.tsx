@@ -44,7 +44,7 @@ const Filters: React.FC<{
                onChange={(e) =>
                   setSelectedFilters({ ...selectedFilters, input: e.target.value ? e.target.value : null })
                }
-               placeholder="Enter Order ID"
+               placeholder="ID daxil et"
                className="w-full rounded-md p-2 outline-none"
                value={selectedFilters.input || ''}
             />

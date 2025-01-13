@@ -19,30 +19,26 @@ export interface IPointDB {
 }
 
 export interface IUserAddress {
-   // city: string
-   // district: string
-   // street: string
-   // building: string
-   // apartment: string
-   // location: {
-   //    lat: number
-   //    lon: number
-   // }
+   description: string
+   city: string
+   location: {
+      lat: number
+      lon: number
+   }
+
+   street?: string
+   name?: string
+   entry?: string
+   floor?: string
+   house?: string
+   code?: string
+   other?: string
 }
 
 export interface IUser {
-   // name: string
-   // email: string
-   // password: string
-   // surname: string
-   // phone: string
-   // gender: 'male' | 'female'
-   // address: IUserAddress[]
-   // role: 'user' | 'seller'
-   // _id: string
-   // createdAt: string
-   // updatedAt: string
-   // __v: number
+   name: string
+   surname: string
+   phone: string
 }
 
 export interface IStore {
@@ -56,41 +52,9 @@ export interface IStore {
    point: IPointDB
 }
 
-export interface IProductImages {
-   // main: {
-   //    imageUrl: string
-   //    imageId: string | null
-   // }
-   // subImages: {
-   //    imageUrl: string
-   //    imageTag: string | null
-   //    imageId: string | null
-   // }[]
-}
-
 export interface IProduct {
    name: string
-   // description: string
-   // price: string
-   // category: {
-   //    main: string
-   //    sub: string
-   //    child: string
-   // }
-   // attributes: {
-   //    [key: string]: string[]
-   // }
-   // features: {
-   //    [key: string]: string
-   // }
-   // images: IProductImages
-   // store: IStore
-   // viewed: number
-   // isActive: boolean
    _id: Types.ObjectId
-   // createdAt: string
-   // updatedAt: string
-   // __v: number
 }
 
 export interface ISelectedAttributes {

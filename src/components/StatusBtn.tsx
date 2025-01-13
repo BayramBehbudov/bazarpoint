@@ -9,6 +9,7 @@ interface IStatusBtn {
 
 const StatusBtn: React.FC<IStatusBtn> = ({ orderId, currentStatus }): JSX.Element => {
    const { orders, setLoading, loading, setOrders } = usePointStore((state) => state)
+
    const status: IOrder['status'] =
       currentStatus === 'pending' ? 'accepted' : currentStatus === 'accepted' ? 'delivered' : currentStatus
 

@@ -19,12 +19,12 @@ const HomeDelivery: React.FC = (): JSX.Element => {
             setOrders(res.data)
             setFilteredOrder(res.data)
          } else {
-            setOrders([])
             console.log(res)
          }
          setLoading(false)
       })()
-   }, [])
+   }, [pointId])
+
    return (
       <main>
          <div className="container">
