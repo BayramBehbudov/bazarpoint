@@ -10,26 +10,27 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    const { loading, pointId, setLoading, setOrders, filteredOrders, setFilteredOrders } = usePointStore(
       (state) => state,
    )
+   const refetchOrders = async () => {
+      setLoading(true)
+      const res = await axios.get(`https://express-bay-rho.vercel.app/api/point/${pointId}`)
+      if (res && res.status === 200) {
+         setOrders(res.data)
+         setFilteredOrders(res.data)
+      } else {
+         console.log(res)
+      }
+      setLoading(false)
+   }
 
    useEffect(() => {
-      ;(async () => {
-         setLoading(true)
-         const res = await axios.get(`https://express-bay-rho.vercel.app/api/point/${pointId}`)
-         if (res && res.status === 200) {
-            setOrders(res.data)
-            setFilteredOrders(res.data)
-         } else {
-            console.log(res)
-         }
-         setLoading(false)
-      })()
+      refetchOrders()
    }, [pointId])
 
    return (
       <main>
          <div className="container">
-            <Filters />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <Filters refetchOrders={refetchOrders} />
+            <div className="grid gap-6 p-5 sm:grid-cols-2 lg:grid-cols-3">
                {filteredOrders.map((order) => (
                   <OrderCard key={order._id} order={order} />
                ))}
