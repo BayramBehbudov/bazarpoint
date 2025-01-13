@@ -4,8 +4,8 @@ export const translateStatus = (text: string) => {
          return 'Gözləyir'
       case 'ready':
          return 'Satıcı hazır qeyd edib'
-      case 'handOver':
-         return 'Satıcı təhvil verdi'
+      case 'takeOver':
+         return 'Kuryer təhvil aldı'
       case 'accepted':
          return 'Təhvil alınıb'
       case 'delivered':

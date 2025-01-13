@@ -80,7 +80,7 @@ export interface IOrder {
    createdAt: string
    customer: IOrderCustomer
    stores: {
-      status: 'pending' | 'ready' | 'handOver'
+      status: 'pending' | 'ready' | 'takeOver'
       store: IStore
       products: IOrderProduct[]
    }[]
