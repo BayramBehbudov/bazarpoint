@@ -1,15 +1,15 @@
 'use client'
 import Filters from '@/components/Filters'
-import TableSection from '@/components/TableSection'
+import OrderCard from '@/components/OrderCard'
 import Loader from '@/components/ui/loader'
-import { IOrder } from '@/interfaces/types'
 import { usePointStore } from '@/stores/usePointStore'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const HomeDelivery: React.FC = (): JSX.Element => {
-   const { loading, pointId, setLoading, setOrders } = usePointStore((state) => state)
-   const [filteredOrders, setFilteredOrder] = useState<IOrder[]>([])
+   const { loading, pointId, setLoading, setOrders, filteredOrders, setFilteredOrders } = usePointStore(
+      (state) => state,
+   )
 
    useEffect(() => {
       ;(async () => {
@@ -17,7 +17,7 @@ const HomeDelivery: React.FC = (): JSX.Element => {
          const res = await axios.get(`https://express-bay-rho.vercel.app/api/point/${pointId}`)
          if (res && res.status === 200) {
             setOrders(res.data)
-            setFilteredOrder(res.data)
+            setFilteredOrders(res.data)
          } else {
             console.log(res)
          }
@@ -28,8 +28,13 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    return (
       <main>
          <div className="container">
-            <Filters setFilteredOrder={setFilteredOrder} />
-            <TableSection filteredOrders={filteredOrders} />
+            <Filters />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+               {filteredOrders.map((order) => (
+                  <OrderCard key={order._id} order={order} />
+               ))}
+            </div>
+
             {loading && <Loader />}
          </div>
       </main>

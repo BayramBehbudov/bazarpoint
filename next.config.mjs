@@ -23,6 +23,7 @@ export default withPWA({
             hostname: '**',
          },
       ],
+      domains: ['res.cloudinary.com'],
    },
 
    sassOptions: {

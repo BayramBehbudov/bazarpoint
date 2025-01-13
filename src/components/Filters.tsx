@@ -1,13 +1,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { IOrder } from '@/interfaces/types'
 import { usePointStore } from '@/stores/usePointStore'
 import { X } from 'lucide-react'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const Filters: React.FC<{
-   setFilteredOrder: Dispatch<SetStateAction<IOrder[]>>
-}> = ({ setFilteredOrder }): JSX.Element => {
-   const { orders } = usePointStore((state) => state)
+const Filters: React.FC = (): JSX.Element => {
+   const { orders, setFilteredOrders } = usePointStore((state) => state)
    const [selectedFilters, setSelectedFilters] = useState<{ input: string | null; status: string | null }>({
       input: null,
       status: null,
@@ -21,7 +18,7 @@ const Filters: React.FC<{
             (!selectedFilters.status || order.status === selectedFilters.status)
          )
       })
-      setFilteredOrder(filteredOrders)
+      setFilteredOrders(filteredOrders)
    }, [orders, selectedFilters])
 
    return (

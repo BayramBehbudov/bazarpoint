@@ -39,10 +39,12 @@ export interface IUser {
    name: string
    surname: string
    phone: string
+   _id: string
+   role: 'user' | 'seller' | 'courier-collector' | 'courier-delivery'
 }
 
 export interface IStore {
-   _id: Types.ObjectId
+   _id: string
    name: string
    address: string
    phone: string
@@ -55,6 +57,18 @@ export interface IStore {
 export interface IProduct {
    name: string
    _id: Types.ObjectId
+   variants: IProductVariant[]
+   image: {
+      imageUrl: string
+      _id: string
+   }
+   store: string
+}
+
+export interface IProductVariant {
+   images: { _id: string; imageUrl: string }[]
+   attributes: Record<string, string[]>
+   _id: string
 }
 
 export interface ISelectedAttributes {
@@ -68,6 +82,11 @@ export interface IOrderProduct {
    _id: string
 }
 
+export interface IOrderStore {
+   status: 'pending' | 'ready' | 'takeOver'
+   store: IStore
+   products: IOrderProduct[]
+}
 export interface IOrderCustomer {
    customer: string
    name: string
@@ -79,13 +98,9 @@ export interface IOrder {
    status: 'pending' | 'accepted' | 'delivered' | 'fullfilled' | 'cancelled'
    createdAt: string
    customer: IOrderCustomer
-   stores: {
-      status: 'pending' | 'ready' | 'takeOver'
-      store: IStore
-      products: IOrderProduct[]
-   }[]
-
    deliveryNote: string
+
+   stores: IOrderStore[]
    sellerNote: string
    deliveryAddress: IUserAddress
 }

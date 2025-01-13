@@ -5,7 +5,7 @@ export const translateStatus = (text: string) => {
       case 'ready':
          return 'Satıcı hazır qeyd edib'
       case 'takeOver':
-         return 'Kuryer təhvil aldı'
+         return 'Mağazadan götürülüb'
       case 'accepted':
          return 'Təhvil alınıb'
       case 'delivered':
@@ -17,16 +17,13 @@ export const translateStatus = (text: string) => {
    }
 }
 
-
-
 export const translateAttributes = (filter: string) => {
    switch (filter) {
-     case "size":
-       return "Ölçü";
-     case "color":
-       return "Rəng";
-     default:
-       return filter;
+      case 'size':
+         return 'Ölçü'
+      case 'color':
+         return 'Rəng'
+      default:
+         return filter
    }
- };
- 
+}

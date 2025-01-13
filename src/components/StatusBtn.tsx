@@ -1,42 +1,44 @@
+import { translateStatus } from '@/helpers/translaters'
 import { IOrder } from '@/interfaces/types'
 import { usePointStore } from '@/stores/usePointStore'
-import axios from 'axios'
 
 interface IStatusBtn {
-   orderId: string
-   currentStatus: IOrder['status']
+   order: IOrder
+   setOpenModal: (open: boolean) => void
+   handleAccept: (status: IOrder['status'], courier: string | null) => Promise<void>
 }
 
-const StatusBtn: React.FC<IStatusBtn> = ({ orderId, currentStatus }): JSX.Element => {
-   const { orders, setLoading, loading, setOrders } = usePointStore((state) => state)
+const StatusBtn: React.FC<IStatusBtn> = ({ order, setOpenModal, handleAccept }): JSX.Element => {
+   const { loading } = usePointStore((state) => state)
+   const { status } = order
 
-   const status: IOrder['status'] =
-      currentStatus === 'pending' ? 'accepted' : currentStatus === 'accepted' ? 'delivered' : currentStatus
+   const acceptedProducts = order.stores.every((store) => store.products.every((p) => p.accepted))
+   const disabled = (status !== 'pending' && status !== 'accepted') || !acceptedProducts || loading
 
-   return (
+   return acceptedProducts ? (
       <button
-         disabled={(currentStatus !== 'pending' && currentStatus !== 'accepted') || loading}
-         className="rounded-xl bg-orange-400 p-3"
+         disabled={disabled}
+         className={`w-[90%] rounded-xl p-3 ${disabled ? 'bg-[#d3922a]' : 'bg-blue-600'}`}
          onClick={async () => {
-            setLoading(true)
+            if (status === 'pending') {
+               setOpenModal(true)
+            }
 
-            try {
-               await axios.patch(`https://express-bay-rho.vercel.app/api/order/${orderId}`, {
-                  status,
-               })
-               const updatedOrders = orders.map((o) => (o._id === orderId ? { ...o, status } : o))
-               setOrders(updatedOrders)
-            } catch (error) {
-               console.log(error)
-            } finally {
-               setLoading(false)
+            if (status === 'accepted') {
+               await handleAccept('delivered', null)
             }
          }}
       >
-         {currentStatus === 'pending' && 'Sifariş təsdiqlə'}
-         {currentStatus === 'accepted' && 'Sifarişi təhvil ver'}
-         {currentStatus !== 'pending' && currentStatus !== 'accepted' && 'Sifariş təhvil verildi'}
+         <p className="text-white">
+            {status === 'pending' && 'Sifariş təsdiqlə'}
+            {status === 'accepted' && 'Sifarişi təhvil ver'}
+            {status !== 'pending' && status !== 'accepted' && translateStatus(status)}
+         </p>
       </button>
+   ) : (
+      <div className={`w-[90%] rounded-xl bg-[#d3922a] p-3`}>
+         <p className="text-center text-white">Məhsullar qəbul edilməyib</p>
+      </div>
    )
 }
 
