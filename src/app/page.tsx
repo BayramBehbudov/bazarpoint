@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 
 const HomeDelivery: React.FC = (): JSX.Element => {
-   const { loading, pointId, setLoading, setOrders, filteredOrders, setFilteredOrders } = usePointStore(
+   const { loading, pointId, setLoading, setOrders, filteredOrders, orders, setFilteredOrders } = usePointStore(
       (state) => state,
    )
    const refetchOrders = async () => {
@@ -21,8 +21,8 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    }
 
    useEffect(() => {
-      refetchOrders()
-   }, [pointId])
+      orders.length === 0 && refetchOrders()
+   }, [pointId, orders])
 
    return (
       <main>
