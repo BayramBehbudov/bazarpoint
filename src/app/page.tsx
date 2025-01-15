@@ -16,8 +16,6 @@ const HomeDelivery: React.FC = (): JSX.Element => {
       if (res && res.status === 200) {
          setOrders(res.data)
          setFilteredOrders(res.data)
-      } else {
-         console.log(res)
       }
       setLoading(false)
    }

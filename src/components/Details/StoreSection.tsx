@@ -10,9 +10,9 @@ const StoreSection = ({ storeData, orderId }: { storeData: IOrderStore; orderId:
          <StoreHeader store={store} status={status} />
          <div className="">
             <h3 className="mb-3 text-base font-semibold text-gray-700">Məhsullar</h3>
-            {products.map((product) => (
+            {products.map((product, i) => (
                <ProductCard
-                  key={product._id}
+                  key={product._id + i}
                   orderProduct={product}
                   orderId={orderId}
                   orderStatus={status === 'takeOver'}

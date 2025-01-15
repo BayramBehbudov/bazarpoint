@@ -16,21 +16,40 @@ export default function OrderDetailPage() {
    const [order, setOrder] = useState<IOrder | null>(null)
    const { orders, loading, setLoading, setOrders } = usePointStore((state) => state)
    const [openModal, setOpenModal] = useState(false)
-
+   const getOrder = async () => {
+      try {
+         setLoading(true)
+         const res = await axios.get(`https://express-bay-rho.vercel.app/api/order`, {
+            params: {
+               _id: id,
+            },
+         })
+         if (res && res.status === 200 && res.data.length > 0) {
+            setOrder(res.data[0])
+         }
+      } catch (error) {
+         console.log(error)
+      } finally {
+         setLoading(false)
+      }
+   }
    useEffect(() => {
       if (id && orders.length > 0) {
          const order = orders.find((o) => o._id === id)
          order && setOrder(order)
+      } else {
+         getOrder()
       }
    }, [id, orders])
 
-   if (!order) {
+   if (loading) return <Loader />
+
+   if (!order)
       return (
          <div className="flex h-screen items-center justify-center">
             <p className="text-xl text-gray-600">Sifariş tapılmadı</p>
          </div>
       )
-   }
 
    const handleAccept = async (status: IOrder['status'], courier: string | null) => {
       const orderId = order._id
@@ -54,7 +73,7 @@ export default function OrderDetailPage() {
          <OrderHeader order={order} />
          <div className="flex w-full flex-col gap-2">
             {order.stores.map((store) => (
-               <StoreSection storeData={store} orderId={order._id} />
+               <StoreSection key={store.store._id} storeData={store} orderId={order._id} />
             ))}
          </div>
          <StatusBtn order={order} setOpenModal={setOpenModal} handleAccept={handleAccept} />

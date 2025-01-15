@@ -98,9 +98,9 @@ export interface IOrder {
    status: 'pending' | 'accepted' | 'delivered' | 'fullfilled' | 'cancelled'
    createdAt: string
    customer: IOrderCustomer
+   deliveryAddress: IUserAddress
    deliveryNote: string
+   sellerNote: string
 
    stores: IOrderStore[]
-   sellerNote: string
-   deliveryAddress: IUserAddress
 }
