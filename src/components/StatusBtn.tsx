@@ -5,13 +5,12 @@ import { usePointStore } from '@/stores/usePointStore'
 interface IStatusBtn {
    order: IOrder
    setOpenModal: (open: boolean) => void
-   handleAccept: (status: IOrder['status'], courier: string | null) => Promise<void>
+   handleAccept: (status: IOrder['status']) => Promise<void>
 }
 
 const StatusBtn: React.FC<IStatusBtn> = ({ order, setOpenModal, handleAccept }): JSX.Element => {
    const { loading } = usePointStore((state) => state)
-   const { status } = order
-
+   const { status, courier } = order
    const acceptedProducts = order.stores.every((store) => store.products.every((p) => p.accepted))
    const disabled = (status !== 'pending' && status !== 'accepted') || !acceptedProducts || loading
 
@@ -20,12 +19,12 @@ const StatusBtn: React.FC<IStatusBtn> = ({ order, setOpenModal, handleAccept }):
          disabled={disabled}
          className={`w-[90%] rounded-xl p-3 ${disabled ? 'bg-[#d3922a]' : 'bg-blue-600'}`}
          onClick={async () => {
-            if (status === 'pending') {
+            if (status === 'pending' && !courier) {
                setOpenModal(true)
             }
 
             if (status === 'accepted') {
-               await handleAccept('delivered', null)
+               await handleAccept('delivered')
             }
          }}
       >

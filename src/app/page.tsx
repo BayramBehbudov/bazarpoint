@@ -12,12 +12,17 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    )
    const refetchOrders = async () => {
       setLoading(true)
-      const res = await axios.get(`https://express-bay-rho.vercel.app/api/point/${pointId}`)
-      if (res && res.status === 200) {
-         setOrders(res.data)
-         setFilteredOrders(res.data)
+      try {
+         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/${pointId}`)
+         if ((res && res.status === 200, res.data.length > 0)) {
+            setOrders(res.data)
+            setFilteredOrders(res.data)
+         }
+      } catch (error) {
+         console.log('refetchOrders error', error)
+      } finally {
+         setLoading(false)
       }
-      setLoading(false)
    }
 
    useEffect(() => {
@@ -27,6 +32,7 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    return (
       <main>
          <div className="container">
+            salam
             <Filters refetchOrders={refetchOrders} />
             <div className="grid gap-6 p-5 sm:grid-cols-2 lg:grid-cols-3">
                {filteredOrders.map((order) => (

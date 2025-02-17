@@ -101,6 +101,6 @@ export interface IOrder {
    deliveryAddress: IUserAddress
    deliveryNote: string
    sellerNote: string
-
+   courier: string | null
    stores: IOrderStore[]
 }

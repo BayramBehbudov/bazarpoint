@@ -14,18 +14,20 @@ import CourierModal from '@/components/CourierSelector'
 export default function OrderDetailPage() {
    const { id } = useParams()
    const [order, setOrder] = useState<IOrder | null>(null)
-   const { orders, loading, setLoading, setOrders } = usePointStore((state) => state)
+   const { orders, loading, setLoading, setOrders, pointId } = usePointStore((state) => state)
    const [openModal, setOpenModal] = useState(false)
+
    const getOrder = async () => {
       try {
          setLoading(true)
-         const res = await axios.get(`https://express-bay-rho.vercel.app/api/order`, {
+         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/order`, {
             params: {
-               _id: id,
+               orderId: id,
+               pointId,
             },
          })
-         if (res && res.status === 200 && res.data.length > 0) {
-            setOrder(res.data[0])
+         if (res && res.status === 200 && res.data._id.toString() === id.toString()) {
+            setOrder(res.data)
          }
       } catch (error) {
          console.log(error)
@@ -33,6 +35,7 @@ export default function OrderDetailPage() {
          setLoading(false)
       }
    }
+
    useEffect(() => {
       if (id && orders.length > 0) {
          const order = orders.find((o) => o._id === id)
@@ -51,14 +54,17 @@ export default function OrderDetailPage() {
          </div>
       )
 
-   const handleAccept = async (status: IOrder['status'], courier: string | null) => {
+   const handleAccept = async (status: IOrder['status'], courier?: string) => {
       const orderId = order._id
       try {
          setLoading(true)
-         await axios.patch(`https://express-bay-rho.vercel.app/api/order/${orderId}`, {
-            status,
-            courier,
-         })
+         const body = courier
+            ? {
+                 status,
+                 courier,
+              }
+            : { status }
+         await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`, body)
          const updatedOrders = orders.map((o) => (o._id === orderId ? { ...o, status } : o))
          setOrders(updatedOrders)
       } catch (error) {

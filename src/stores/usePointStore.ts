@@ -1,5 +1,4 @@
 import { IOrder, IUser } from '@/interfaces/types'
-import axios from 'axios'
 import { create } from 'zustand'
 
 interface IPointStore {
@@ -23,8 +22,8 @@ export const usePointStore = create<IPointStore>((set) => ({
    setFilteredOrders: (filteredOrders) => set({ filteredOrders }),
    couriers: [
       {
-         _id: '677ecd2beff4864acf536602',
-         name: 'Kuryer 1',
+         _id: '67b0c320194e1b0008a5cd45',
+         name: 'Delivery',
          surname: 'Behbudov',
          phone: '+994509876704',
          role: 'courier-delivery',
@@ -37,8 +36,8 @@ export const usePointStore = create<IPointStore>((set) => ({
          role: 'courier-delivery',
       },
       {
-         _id: '677ecd2bef4864acf53660b',
-         name: 'Kuryer 1',
+         _id: '67b0c309194e1b0008a5cd41',
+         name: 'Collector',
          surname: 'Behbudov',
          phone: '+994509876704',
          role: 'courier-collector',

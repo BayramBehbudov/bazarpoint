@@ -39,7 +39,7 @@ const ProductCard = ({
    const handleAccept = async () => {
       setLoading(true)
       try {
-         await axios.post(`https://express-bay-rho.vercel.app/api/point`, {
+         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/points/product-accepted`, {
             orderId,
             storeId,
             fieldId,
