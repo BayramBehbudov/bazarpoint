@@ -32,7 +32,6 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    return (
       <main>
          <div className="container">
-            salam
             <Filters refetchOrders={refetchOrders} />
             <div className="grid gap-6 p-5 sm:grid-cols-2 lg:grid-cols-3">
                {filteredOrders.map((order) => (
