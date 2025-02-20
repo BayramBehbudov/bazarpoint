@@ -44,7 +44,7 @@ const CourierModal: React.FC<CourierModalProps> = ({ setIsOpen, setSelectedCouri
                   transition={{ type: 'spring', damping: 25, stiffness: 500 }}
                   className="w-full max-w-md overflow-hidden rounded-t-2xl bg-white shadow-xl sm:rounded-2xl"
                >
-                  <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                  <div className="flex items-center  justify-between border-b border-gray-200 p-4">
                      <h2 className="text-xl font-semibold text-gray-800">Kuryer təyin et</h2>
                      <button
                         onClick={handleClose}
