@@ -5,13 +5,14 @@ import { usePointStore } from '@/stores/usePointStore'
 interface IStatusBtn {
    order: IOrder
    setOpenModal: (open: boolean) => void
-   handleAccept: (status: IOrder['status']) => Promise<void>
+   handleAccept: (status: 'delivered') => Promise<void>
 }
 
 const StatusBtn: React.FC<IStatusBtn> = ({ order, setOpenModal, handleAccept }): JSX.Element => {
    const { loading } = usePointStore((state) => state)
-   const { status, courier } = order
-   const acceptedProducts = order.stores.every((store) => store.products.every((p) => p.accepted))
+   const stores = order.packages.flatMap((p) => p.stores)
+   const acceptedProducts = stores.every((store) => store.products.every((p) => p.accepted))
+   const { status, courier } = order.packages[0]
    const disabled = (status !== 'pending' && status !== 'accepted') || !acceptedProducts || loading
 
    return acceptedProducts ? (

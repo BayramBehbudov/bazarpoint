@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { IOrder } from '@/interfaces/types'
+import { IOrder, IPackage } from '@/interfaces/types'
 import { translateStatus } from '@/helpers/translaters'
 import { formatterDate, getSlicedID, getStatusColor, hoursSince } from '@/helpers/functions'
 
@@ -8,23 +8,24 @@ interface OrderCardProps {
 }
 
 export default function OrderCard({ order }: OrderCardProps) {
-   const totalProducts = order.stores.reduce((sum, store) => sum + store.products.length, 0)
-
+   const totalStores = order.packages.flatMap((p) => p.stores)
+   const totalProducts = totalStores.reduce((sum, store) => sum + store.products.length, 0)
+   const { status } = order.packages[0]
    return (
       <div className="rounded-lg border border-gray-200 bg-white shadow-md transition-shadow duration-300 hover:shadow-xl">
          <div className="flex flex-col gap-2 p-5">
             <div className="flex items-center justify-between">
                <h2 className="text-lg font-bold text-blue-600">{getSlicedID(order._id)}</h2>
                <span
-                  style={{ backgroundColor: getStatusColor(order.status) }}
+                  style={{ backgroundColor: getStatusColor(status) }}
                   className={`rounded-lg px-3 py-1 text-xs font-medium text-white`}
                >
-                  {translateStatus(order.status)}
+                  {translateStatus(status)}
                </span>
             </div>
             <div className="flex justify-between text-sm text-gray-700">
                <div className="flex gap-2">
-                  <span className="font-bold">{order.stores.length}</span>
+                  <span className="font-bold">{totalStores.length}</span>
                   <span>Mağaza</span>
                </div>
                <div className="flex gap-2">

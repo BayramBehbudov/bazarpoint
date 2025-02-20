@@ -93,14 +93,20 @@ export interface IOrderCustomer {
    phone: string
    surname: string
 }
+
+export interface IPackage {
+   stores: IOrderStore[]
+   status: 'pending' | 'accepted' | 'delivered' | 'fullfilled'
+   courier: string | null
+   _id: string
+}
 export interface IOrder {
    _id: string
-   status: 'pending' | 'accepted' | 'delivered' | 'fullfilled' | 'cancelled'
+   status: 'pending' | 'fullfilled'
    createdAt: string
    customer: IOrderCustomer
    deliveryAddress: IUserAddress
    deliveryNote: string
    sellerNote: string
-   courier: string | null
-   stores: IOrderStore[]
+   packages: IPackage[]
 }

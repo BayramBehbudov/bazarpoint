@@ -10,7 +10,13 @@ interface IOrderHeader {
 
 const OrderHeader: React.FC<IOrderHeader> = ({ order }) => {
    const router = useRouter()
-
+   const {
+      _id,
+      status,
+      customer: { phone, name, surname },
+      deliveryAddress: { description },
+      deliveryNote,
+   } = order
    return (
       <div className="w-full overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:shadow-xl">
          <div className="p-6">
@@ -24,7 +30,7 @@ const OrderHeader: React.FC<IOrderHeader> = ({ order }) => {
                </button>
                <h1 className="flex items-center text-xl font-bold text-gray-900">
                   <Package className="mr-2 h-6 w-6 text-blue-500" />
-                  Sifariş {getSlicedID(order._id)}
+                  Sifariş {getSlicedID(_id)}
                </h1>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
@@ -32,30 +38,30 @@ const OrderHeader: React.FC<IOrderHeader> = ({ order }) => {
                   <p
                      className="mr-2 rounded-full px-2 py-1 text-xs font-semibold text-white"
                      style={{
-                        backgroundColor: `${getStatusColor(order.status)}`,
+                        backgroundColor: `${getStatusColor(status)}`,
                      }}
                   >
-                     {translateStatus(order.status)}
+                     {translateStatus(status)}
                   </p>
                </div>
                <div className="flex items-center rounded-md bg-gray-50 p-2">
                   <User className="mr-2 text-gray-500" size={20} color="blue" />
                   <span className="text-sm font-medium text-gray-700">
-                     {order.customer.name} {order.customer.surname}
+                     {name} {surname}
                   </span>
                </div>
                <div className="flex items-center rounded-md bg-gray-50 p-2">
                   <Phone className="mr-2 text-gray-500" size={20} color="blue" />
-                  <span className="text-sm font-medium text-gray-700">{order.customer.phone}</span>
+                  <span className="text-sm font-medium text-gray-700">{phone}</span>
                </div>
                <div className="flex items-center rounded-md bg-gray-50 p-2">
                   <MapPin className="mr-2 text-gray-500" size={20} color="blue" />
-                  <span className="text-sm font-medium text-gray-700">{order.deliveryAddress.description}</span>
+                  <span className="text-sm font-medium text-gray-700">{description}</span>
                </div>
-               {order.deliveryNote && (
+               {deliveryNote && (
                   <div className="flex items-center rounded-md bg-gray-50 p-2">
                      <ScrollText className="mr-2 text-gray-500" size={20} color="blue" />
-                     <span className="text-sm font-medium text-gray-700">{order.deliveryNote}</span>
+                     <span className="text-sm font-medium text-gray-700">{deliveryNote}</span>
                   </div>
                )}
             </div>
@@ -92,7 +98,7 @@ export default OrderHeader
 //           </button>
 //           <h1 className="text-2xl font-bold text-gray-800 flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
 //             <Package className="mr-2 h-6 w-6 text-blue-500" />
-//             Sifariş #{getSlicedID(order._id)}
+//             Sifariş #{getSlicedID(1._id)}
 //           </h1>
 //         </div>
 //         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -103,20 +109,20 @@ export default OrderHeader
 //             <div>
 //               <span className="text-xs text-gray-500 block">Tarix</span>
 //               <span className="text-sm font-medium text-gray-800">
-//                 {new Date(order.createdAt).toLocaleDateString('az-AZ', { year: 'numeric', month: 'long', day: 'numeric' })}
+//                 {new Date(1.createdAt).toLocaleDateString('az-AZ', { year: 'numeric', month: 'long', day: 'numeric' })}
 //               </span>
 //             </div>
 //           </div>
 //           <div className="flex items-center bg-white rounded-lg p-3 shadow-sm transition-all duration-200 hover:shadow-md hover:translate-y-[-2px]">
 //             <div
 //               className="rounded-full p-2 mr-3"
-//               style={{ backgroundColor: `${getStatusColor(order.status)}20` }}
+//               style={{ backgroundColor: `${getStatusColor(1.status)}20` }}
 //             >
 //               <span
 //                 className="px-2 py-1 rounded-full text-xs font-semibold"
-//                 style={{ color: getStatusColor(order.status) }}
+//                 style={{ color: getStatusColor(1.status) }}
 //               >
-//                 {translateStatus(order.status)}
+//                 {translateStatus(1.status)}
 //               </span>
 //             </div>
 //           </div>
@@ -127,7 +133,7 @@ export default OrderHeader
 //             <div>
 //               <span className="text-xs text-gray-500 block">Müştəri</span>
 //               <span className="text-sm font-medium text-gray-800">
-//                 {order.customer.name} {order.customer.surname}
+//                 {1.customer.name} {1.customer.surname}
 //               </span>
 //             </div>
 //           </div>
@@ -137,7 +143,7 @@ export default OrderHeader
 //             </div>
 //             <div>
 //               <span className="text-xs text-gray-500 block">Telefon</span>
-//               <span className="text-sm font-medium text-gray-800">{order.customer.phone}</span>
+//               <span className="text-sm font-medium text-gray-800">{1.customer.phone}</span>
 //             </div>
 //           </div>
 //           <div className="flex items-center bg-white rounded-lg p-3 shadow-sm transition-all duration-200 hover:shadow-md hover:translate-y-[-2px]">
@@ -146,17 +152,17 @@ export default OrderHeader
 //             </div>
 //             <div>
 //               <span className="text-xs text-gray-500 block">Ünvan</span>
-//               <span className="text-sm font-medium text-gray-800">{order.deliveryAddress.description}</span>
+//               <span className="text-sm font-medium text-gray-800">{1.deliveryAddress.description}</span>
 //             </div>
 //           </div>
-//           {order.deliveryNote && (
+//           {1.deliveryNote && (
 //             <div className="flex items-center bg-white rounded-lg p-3 shadow-sm transition-all duration-200 hover:shadow-md hover:translate-y-[-2px]">
 //               <div className="bg-red-100 rounded-full p-2 mr-3">
 //                 <Truck className="h-5 w-5 text-red-600" />
 //               </div>
 //               <div>
 //                 <span className="text-xs text-gray-500 block">Çatdırılma qeydi</span>
-//                 <span className="text-sm font-medium text-gray-800">{order.deliveryNote}</span>
+//                 <span className="text-sm font-medium text-gray-800">{1.deliveryNote}</span>
 //               </div>
 //             </div>
 //           )}

@@ -2,7 +2,15 @@ import { IOrderStore } from '@/interfaces/types'
 import StoreHeader from './StoreHeader'
 import ProductCard from './ProductCard'
 
-const StoreSection = ({ storeData, orderId }: { storeData: IOrderStore; orderId: string }): JSX.Element => {
+const StoreSection = ({
+   storeData,
+   orderId,
+   packId,
+}: {
+   storeData: IOrderStore
+   orderId: string
+   packId: string
+}): JSX.Element => {
    const { store, status, products } = storeData
 
    return (
@@ -12,6 +20,7 @@ const StoreSection = ({ storeData, orderId }: { storeData: IOrderStore; orderId:
             <h3 className="mb-3 text-base font-semibold text-gray-700">Məhsullar</h3>
             {products.map((product, i) => (
                <ProductCard
+                  packId={packId}
                   key={product._id + i}
                   orderProduct={product}
                   orderId={orderId}

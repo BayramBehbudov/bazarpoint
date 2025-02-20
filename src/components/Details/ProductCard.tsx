@@ -1,7 +1,6 @@
 import { translateAttributes } from '@/helpers/translaters'
-import { IOrderProduct } from '@/interfaces/types'
+import { IOrder, IOrderProduct } from '@/interfaces/types'
 import Image from 'next/image'
-import { useState } from 'react'
 import axios from 'axios'
 import { usePointStore } from '@/stores/usePointStore'
 import { getSlicedID } from '@/helpers/functions'
@@ -9,10 +8,12 @@ import { getSlicedID } from '@/helpers/functions'
 const ProductCard = ({
    orderProduct,
    orderId,
+   packId,
    orderStatus,
 }: {
    orderProduct: IOrderProduct
    orderId: string
+   packId: string
    orderStatus: boolean
 }): JSX.Element => {
    const { product, count, selectedAttributes, accepted, _id: fieldId } = orderProduct
@@ -41,22 +42,32 @@ const ProductCard = ({
       try {
          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/points/product-accepted`, {
             orderId,
+            packId,
             storeId,
             fieldId,
             accepted: true,
          })
 
-         const updatedOrders = orders.map((o) =>
+         const updatedOrders: IOrder[] = orders.map((o) =>
             o._id === orderId
                ? {
                     ...o,
-                    stores: o.stores.map((s) =>
-                       s.store._id === storeId
+                    packages: o.packages.map((p) =>
+                       p._id.toString() === packId.toString()
                           ? {
-                               ...s,
-                               products: s.products.map((p) => (p._id === fieldId ? { ...p, accepted: true } : p)),
+                               ...p,
+                               stores: p.stores.map((s) =>
+                                  s.store._id.toString() === storeId.toString()
+                                     ? {
+                                          ...s,
+                                          products: s.products.map((p) =>
+                                             p._id.toString() === fieldId.toString() ? { ...p, accepted: true } : p,
+                                          ),
+                                       }
+                                     : s,
+                               ),
                             }
-                          : s,
+                          : p,
                     ),
                  }
                : o,
