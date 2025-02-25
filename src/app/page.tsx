@@ -13,7 +13,6 @@ const HomeDelivery: React.FC = (): JSX.Element => {
    const refetchOrders = async () => {
       setLoading(true)
       try {
-         alert(`${process.env.NEXT_PUBLIC_API_URL}/points/${pointId}`)
          const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/${pointId}`)
          if ((res && res.status === 200, res.data.length > 0)) {
             setOrders(res.data)
