@@ -16,6 +16,7 @@ export default function OrderDetailPage() {
    const [order, setOrder] = useState<IOrder | null>(null)
    const { orders, loading, setLoading, setOrders, pointId } = usePointStore((state) => state)
    const [openModal, setOpenModal] = useState(false)
+
    const getOrder = async () => {
       try {
          setLoading(true)
@@ -25,7 +26,7 @@ export default function OrderDetailPage() {
                pointId,
             },
          })
-         if (res && res.status === 200 && res.data._id.toString() === id.toString()) {
+         if (res && res.status === 200 && res.data._id.toString() === id?.toString()) {
             setOrder(res.data)
          }
       } catch (error) {

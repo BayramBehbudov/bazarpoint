@@ -14,7 +14,6 @@ const __dirname = path.dirname(__filename)
 
 
 export default withPWA({
-
    reactStrictMode: false,
    images: {
       remotePatterns: [

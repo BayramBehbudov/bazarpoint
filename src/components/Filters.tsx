@@ -1,14 +1,32 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { usePointStore } from '@/stores/usePointStore'
+import axios from 'axios'
 import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-const Filters = ({ refetchOrders }: { refetchOrders: () => void }): JSX.Element => {
-   const { orders, setFilteredOrders } = usePointStore((state) => state)
+const Filters = (): JSX.Element => {
+   const { orders, setFilteredOrders, setOrders, setPointId, setCouriers } = usePointStore((state) => state)
    const [selectedFilters, setSelectedFilters] = useState<{ input: string | null; status: string | null }>({
       input: null,
       status: null,
    })
+
+   const refetchOrders = async () => {
+      const {
+         status,
+         data: { point, access_token, orders, couriers },
+      } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/points/login`, {
+         phone: '+994509876701',
+         password: 'sederekPass1',
+      })
+      if (status === 201 && point && access_token) {
+         if (orders.length > 0) {
+            setPointId(point._id)
+            setOrders(orders)
+         }
+         if (couriers.length > 0) setCouriers(couriers)
+      }
+   }
 
    useEffect(() => {
       const filteredOrders = orders.filter((order) => {
@@ -49,10 +67,7 @@ const Filters = ({ refetchOrders }: { refetchOrders: () => void }): JSX.Element 
             <X className="cursor-pointer" onClick={() => setSelectedFilters({ ...selectedFilters, input: null })} />
          </div>
 
-         <button
-            className="w-[90%] rounded-md bg-[#3e3e98] px-4 py-2 text-white sm:w-[180px]"
-            onClick={() => refetchOrders()}
-         >
+         <button className="w-[90%] rounded-md bg-[#3e3e98] px-4 py-2 text-white sm:w-[180px]" onClick={refetchOrders}>
             Sifarişləri yenilə
          </button>
       </div>
