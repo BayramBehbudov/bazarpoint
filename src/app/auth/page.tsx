@@ -33,7 +33,7 @@ export const LoginSchema = z.object({
 
 export type ILogin = z.infer<typeof LoginSchema>
 
-const page = () => {
+const LoginPage = () => {
    const { loading, setLoading, setOrders, setPointId, setFilteredOrders, setCouriers } = usePointStore(
       (state) => state,
    )
@@ -49,30 +49,34 @@ const page = () => {
    const onSubmit = async (formValue: ILogin) => {
       setLoading(true)
       try {
-         const {
-            status,
-            data: { point, orders, couriers },
-         } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/auth`, {
-            withCredentials: true,
-         })
+          // const {
+          //    status,
+          //    data: { point, orders, couriers },
+          // } = await axios.get(`http://localhost:3333/points/auth`, {
+          //    withCredentials: true,
+          //    headers: {
+          //       'Content-Type': 'application/json',
+          //    },
+          // })
+          // console.log(point, orders, couriers)
 
-         // const {
-         //    status,
-         //    data: { point, access_token, orders, couriers },
-         // } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/points/login`, formValue)
+        //  const {
+        //     status,
+        //     data: { point, access_token, orders, couriers },
+        //  } = await axios.post(`http://192.168.0.198:3333/points/login`, formValue)
 
-         console.log({ status, point, orders, couriers })
+        //  console.log({ status, point, orders, couriers })
 
-         // if (status === 201 && point && access_token) {
-         //    addCookie('access_token', access_token)
-         //    if (orders.length > 0) {
-         //       setFilteredOrders(orders)
-         //       setOrders(orders)
-         //       setPointId(point._id)
-         //    }
-         //    if (couriers.length > 0) setCouriers(couriers)
-         //    // router.push(`/`)
-         // }
+        //  if (status === 201 && point && access_token) {
+        //     addCookie('access_token', access_token)
+        //     if (orders.length > 0) {
+        //        setFilteredOrders(orders)
+        //        setOrders(orders)
+        //        setPointId(point._id)
+        //     }
+        //     if (couriers.length > 0) setCouriers(couriers)
+        //     // router.push(`/`)
+        //  }
       } catch (error: any) {
          console.log(error)
       } finally {
@@ -142,4 +146,4 @@ const page = () => {
    )
 }
 
-export default page
+export default LoginPage

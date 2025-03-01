@@ -1,17 +1,10 @@
-import withPWAInit from "@ducanh2912/next-pwa";
+import withPWAInit from '@ducanh2912/next-pwa'
 
 const withPWA = withPWAInit({
-   dest: "public",
-});
-
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+   dest: 'public',
+})
 
 /** @type {import('next').NextConfig} */
-
 
 export default withPWA({
    reactStrictMode: false,
@@ -24,11 +17,4 @@ export default withPWA({
       ],
       domains: ['res.cloudinary.com'],
    },
-
-   sassOptions: {
-      includePaths: [path.join(__dirname, './src/styles')],
-      prependData: `@import "av";`,
-   },
-});
-
-
+})
