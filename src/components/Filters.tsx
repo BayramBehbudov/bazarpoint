@@ -19,7 +19,7 @@ const Filters = (): JSX.Element => {
          )
       })
       setFilteredOrders(filteredOrders)
-   }, [orders, selectedFilters])
+   }, [orders, selectedFilters, setFilteredOrders])
 
    return (
       <div className="flex flex-wrap items-center justify-center gap-3 bg-slate-200 p-5 sm:justify-start">

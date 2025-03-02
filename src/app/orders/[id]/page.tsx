@@ -20,11 +20,13 @@ export default function OrderDetailPage() {
    useEffect(() => {
       if (id && orders.length > 0) {
          const order = orders.find((o) => o._id === id)
-         order && setOrder(order)
+         if (order) {
+            setOrder(order)
+         }
       } else {
          refetch()
       }
-   }, [id, orders])
+   }, [id, orders, refetch])
 
    if (!order)
       return (

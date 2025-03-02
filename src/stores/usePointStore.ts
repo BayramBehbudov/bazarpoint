@@ -33,12 +33,16 @@ export const usePointStore = create<IPointStore>((set) => ({
             data: { orders, couriers },
          } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/auth?token=${token}`)
          if (status === 200) {
-            orders?.length > 0 && set({ orders })
-            couriers?.length > 0 && set({ couriers })
+            if (orders && orders.length > 0) {
+               set({ orders })
+            }
+            if (couriers && couriers.length > 0) {
+               set({ couriers })
+            }
          }
       } catch (error) {
          await removeCookie('access_token')
-         console.log({ error })
+         console.log(error)
       } finally {
          set({ loading: false })
       }

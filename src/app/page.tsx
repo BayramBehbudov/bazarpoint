@@ -12,7 +12,7 @@ const HomeDelivery: React.FC = (): JSX.Element => {
       if (orders.length === 0) {
          refetch()
       }
-   }, [])
+   }, [orders.length, refetch])
 
    return (
       <main>

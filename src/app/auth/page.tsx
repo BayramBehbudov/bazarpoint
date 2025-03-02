@@ -59,7 +59,7 @@ const LoginPage = () => {
             if (couriers.length > 0) setCouriers(couriers)
             router.push(`/`)
          }
-      } catch (error: any) {
+      } catch (error) {
          console.log(error)
       } finally {
          setLoading(false)
