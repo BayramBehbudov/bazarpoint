@@ -13,6 +13,7 @@ const Filters = (): JSX.Element => {
 
    async function test() {
       try {
+         prompt(process.env.NEXT_PUBLIC_API_URL)
          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/test`, {
             headers: {
                'Content-Type': 'application/json',
