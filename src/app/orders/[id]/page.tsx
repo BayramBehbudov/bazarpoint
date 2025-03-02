@@ -7,50 +7,29 @@ import { IOrder } from '@/interfaces/types'
 import { usePointStore } from '@/stores/usePointStore'
 import OrderHeader from '@/components/Details/OrderHeader'
 import StoreSection from '@/components/Details/StoreSection'
-import Loader from '@/components/ui/loader'
 import StatusBtn from '@/components/StatusBtn'
 import CourierModal from '@/components/CourierSelector'
+import CustomLoader from '@/components/CustomLoader'
 
 export default function OrderDetailPage() {
    const { id } = useParams()
    const [order, setOrder] = useState<IOrder | null>(null)
-   const { orders, loading, setLoading, setOrders, pointId } = usePointStore((state) => state)
+   const { orders, loading, setLoading, setOrders, refetch } = usePointStore((state) => state)
    const [openModal, setOpenModal] = useState(false)
-
-   const getOrder = async () => {
-      try {
-         setLoading(true)
-         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/order`, {
-            params: {
-               orderId: id,
-               pointId,
-            },
-         })
-         if (res && res.status === 200 && res.data._id.toString() === id?.toString()) {
-            setOrder(res.data)
-         }
-      } catch (error) {
-         console.log(error)
-      } finally {
-         setLoading(false)
-      }
-   }
 
    useEffect(() => {
       if (id && orders.length > 0) {
          const order = orders.find((o) => o._id === id)
          order && setOrder(order)
       } else {
-         getOrder()
+         refetch()
       }
    }, [id, orders])
-
-   if (loading) return <Loader />
 
    if (!order)
       return (
          <div className="flex h-screen items-center justify-center">
-            <p className="text-xl text-gray-600">Sifariş tapılmadı</p>
+            <CustomLoader message="Sifariş axtarılır..." visible={loading} bgcolor="#00000050" />
          </div>
       )
 
@@ -106,7 +85,7 @@ export default function OrderDetailPage() {
                }
             }}
          />
-         {loading && <Loader />}
+         {loading && <CustomLoader message="Məlumatlar yenilənir" visible={loading} bgcolor="#00000050" />}
       </div>
    )
 }

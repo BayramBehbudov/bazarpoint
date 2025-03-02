@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -8,7 +8,6 @@ import CustomLoader from '@/components/CustomLoader'
 import { z } from 'zod'
 import { usePointStore } from '@/stores/usePointStore'
 import { useRouter } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { addCookie } from '@/helpers/cookieActions'
 
 export const LoginSchema = z.object({
@@ -34,9 +33,7 @@ export const LoginSchema = z.object({
 export type ILogin = z.infer<typeof LoginSchema>
 
 const LoginPage = () => {
-   const { loading, setLoading, setOrders, setPointId, setFilteredOrders, setCouriers } = usePointStore(
-      (state) => state,
-   )
+   const { loading, setLoading, setOrders, setFilteredOrders, setCouriers } = usePointStore((state) => state)
    const {
       handleSubmit,
       register,
@@ -49,34 +46,19 @@ const LoginPage = () => {
    const onSubmit = async (formValue: ILogin) => {
       setLoading(true)
       try {
-          // const {
-          //    status,
-          //    data: { point, orders, couriers },
-          // } = await axios.get(`http://localhost:3333/points/auth`, {
-          //    withCredentials: true,
-          //    headers: {
-          //       'Content-Type': 'application/json',
-          //    },
-          // })
-          // console.log(point, orders, couriers)
-
-        //  const {
-        //     status,
-        //     data: { point, access_token, orders, couriers },
-        //  } = await axios.post(`http://192.168.0.198:3333/points/login`, formValue)
-
-        //  console.log({ status, point, orders, couriers })
-
-        //  if (status === 201 && point && access_token) {
-        //     addCookie('access_token', access_token)
-        //     if (orders.length > 0) {
-        //        setFilteredOrders(orders)
-        //        setOrders(orders)
-        //        setPointId(point._id)
-        //     }
-        //     if (couriers.length > 0) setCouriers(couriers)
-        //     // router.push(`/`)
-        //  }
+         const {
+            status,
+            data: { access_token, orders, couriers },
+         } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/points/login`, formValue)
+         if (status === 201 && access_token) {
+            addCookie('access_token', access_token)
+            if (orders.length > 0) {
+               setFilteredOrders(orders)
+               setOrders(orders)
+            }
+            if (couriers.length > 0) setCouriers(couriers)
+            router.push(`/`)
+         }
       } catch (error: any) {
          console.log(error)
       } finally {

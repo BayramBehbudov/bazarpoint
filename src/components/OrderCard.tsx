@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { IOrder, IPackage } from '@/interfaces/types'
+import { IOrder } from '@/interfaces/types'
 import { translateStatus } from '@/helpers/translaters'
 import { formatterDate, getSlicedID, getStatusColor, hoursSince } from '@/helpers/functions'
 

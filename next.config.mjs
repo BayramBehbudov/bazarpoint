@@ -17,4 +17,5 @@ export default withPWA({
       ],
       domains: ['res.cloudinary.com'],
    },
+
 })

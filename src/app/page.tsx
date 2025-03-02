@@ -1,11 +1,18 @@
 'use client'
+import CustomLoader from '@/components/CustomLoader'
 import Filters from '@/components/Filters'
 import OrderCard from '@/components/OrderCard'
-import Loader from '@/components/ui/loader'
 import { usePointStore } from '@/stores/usePointStore'
+import { useEffect } from 'react'
 
 const HomeDelivery: React.FC = (): JSX.Element => {
-   const { loading, filteredOrders } = usePointStore((state) => state)
+   const { loading, filteredOrders, refetch, orders } = usePointStore((state) => state)
+
+   useEffect(() => {
+      if (orders.length === 0) {
+         refetch()
+      }
+   }, [])
 
    return (
       <main>
@@ -17,7 +24,7 @@ const HomeDelivery: React.FC = (): JSX.Element => {
                ))}
             </div>
 
-            {loading && <Loader />}
+            {loading && <CustomLoader message="Sifarişlər axtarılır..." visible={loading} bgcolor="#00000050" />}
          </div>
       </main>
    )
