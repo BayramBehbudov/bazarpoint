@@ -13,7 +13,7 @@ const Filters = (): JSX.Element => {
 
    async function test() {
       try {
-         const response = await axios.get(`https://e614-62-217-156-240.ngrok-free.app/points/test`, {
+         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/test`, {
             headers: {
                'Content-Type': 'application/json',
             },
