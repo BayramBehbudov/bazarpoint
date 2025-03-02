@@ -13,7 +13,7 @@ const Filters = (): JSX.Element => {
 
    async function test() {
       try {
-         const { status, data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/test`)
+         const { status, data } = await axios.get(`http://192.168.100.7:3333/points/test`)
          console.log({ status, data })
       } catch (error) {
          console.log('test', error)

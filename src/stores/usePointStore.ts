@@ -41,7 +41,6 @@ export const usePointStore = create<IPointStore>((set) => ({
             }
          }
       } catch (error) {
-         prompt(JSON.stringify(error))
          // await removeCookie('access_token')
          console.log(error)
       } finally {
