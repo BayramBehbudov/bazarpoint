@@ -1,5 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { usePointStore } from '@/stores/usePointStore'
+import axios from 'axios'
 import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
@@ -10,6 +11,14 @@ const Filters = (): JSX.Element => {
       status: null,
    })
 
+   async function test() {
+      try {
+         const { status, data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/points/test`)
+         console.log({ status, data })
+      } catch (error) {
+         console.log('test', error)
+      }
+   }
    useEffect(() => {
       const filteredOrders = orders.filter((order) => {
          return (
@@ -51,6 +60,10 @@ const Filters = (): JSX.Element => {
 
          <button className="w-[90%] rounded-md bg-[#3e3e98] px-4 py-2 text-white sm:w-[180px]" onClick={refetch}>
             Sifarişləri yenilə
+         </button>
+
+         <button className="w-[90%] rounded-md bg-[#3e3e98] px-4 py-2 text-white sm:w-[180px]" onClick={test}>
+            test
          </button>
       </div>
    )

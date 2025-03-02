@@ -1,4 +1,4 @@
-import { getCookie, removeCookie } from '@/helpers/cookieActions'
+import { getCookie} from '@/helpers/cookieActions'
 import { IOrder, IUser } from '@/interfaces/types'
 import axios from 'axios'
 import { create } from 'zustand'
