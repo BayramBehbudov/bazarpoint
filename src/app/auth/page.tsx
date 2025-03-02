@@ -5,32 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import CustomInput from '@/components/CustomInput'
 import CustomLoader from '@/components/CustomLoader'
-import { z } from 'zod'
 import { usePointStore } from '@/stores/usePointStore'
 import { useRouter } from 'next/navigation'
 import { addCookie } from '@/helpers/cookieActions'
-
-export const LoginSchema = z.object({
-   password: z
-      .string({
-         required_error: 'Şifrəni daxil edin',
-      })
-      .trim()
-      .min(8, { message: 'Şifrə minimum 8 simvoldan ibarət olmalıdır' })
-      .regex(/[A-Z]/, { message: 'Şifrədə ən az bir böyük hərf olmalıdır' })
-      .regex(/[a-z]/, { message: 'Şifrədə ən az bir kiçik hərf olmalıdır' })
-      .regex(/[0-9]/, { message: 'Şifrədə ən az bir rəqəm olmalıdır' }),
-   phone: z
-      .string({
-         required_error: 'Nömrəni daxil edin',
-      })
-      .trim()
-      .regex(/^\+994\d{9}$/, {
-         message: 'Nömrəni düzgün daxil edin. məs. +994501234567',
-      }),
-})
-
-export type ILogin = z.infer<typeof LoginSchema>
+import { ILogin, LoginSchema } from '@/interfaces/types'
 
 const LoginPage = () => {
    const { loading, setLoading, setOrders, setFilteredOrders, setCouriers } = usePointStore((state) => state)

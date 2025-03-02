@@ -2,7 +2,8 @@
 import React, { useState } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 import { User, Phone, Eye, EyeOff } from 'lucide-react'
-import { ILogin } from '@/app/auth/page'
+import { ILogin } from '@/interfaces/types'
+
 
 interface CustomInputProps {
    name: 'phone' | 'password'

@@ -1,4 +1,28 @@
 import { Types } from 'mongoose'
+import { z } from 'zod'
+
+
+export const LoginSchema = z.object({
+   password: z
+      .string({
+         required_error: 'Şifrəni daxil edin',
+      })
+      .trim()
+      .min(8, { message: 'Şifrə minimum 8 simvoldan ibarət olmalıdır' })
+      .regex(/[A-Z]/, { message: 'Şifrədə ən az bir böyük hərf olmalıdır' })
+      .regex(/[a-z]/, { message: 'Şifrədə ən az bir kiçik hərf olmalıdır' })
+      .regex(/[0-9]/, { message: 'Şifrədə ən az bir rəqəm olmalıdır' }),
+   phone: z
+      .string({
+         required_error: 'Nömrəni daxil edin',
+      })
+      .trim()
+      .regex(/^\+994\d{9}$/, {
+         message: 'Nömrəni düzgün daxil edin. məs. +994501234567',
+      }),
+})
+
+export type ILogin = z.infer<typeof LoginSchema>
 
 export interface IPoint {
    name: string
