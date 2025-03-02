@@ -13,10 +13,10 @@ const Filters = (): JSX.Element => {
 
    async function test() {
       try {
-         const { status, data } = await axios.get(`https://e614-62-217-156-240.ngrok-free.app/points/test`)
-         console.log({ status, data })
+         const response = await axios.get(`https://e614-62-217-156-240.ngrok-free.app/points/test`)
+         console.log(response)
       } catch (error) {
-         console.log('test', error)
+         console.log('testerror', error)
       }
    }
    useEffect(() => {
