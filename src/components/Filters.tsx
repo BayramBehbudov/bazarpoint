@@ -13,7 +13,12 @@ const Filters = (): JSX.Element => {
 
    async function test() {
       try {
-         const response = await axios.get(`https://e614-62-217-156-240.ngrok-free.app/points/test`)
+         const response = await axios.get(`https://e614-62-217-156-240.ngrok-free.app/points/test`, {
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+         })
          console.log(response)
       } catch (error) {
          console.log('testerror', error)
